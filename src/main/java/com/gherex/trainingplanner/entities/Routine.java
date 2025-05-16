@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "routine")
+@Table(name = "routines")
 public class Routine {
 
     @Id

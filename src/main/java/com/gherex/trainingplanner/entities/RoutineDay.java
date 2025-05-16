@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "routine_day")
+@Table(name = "routine_days")
 public class RoutineDay {
 
     @Id
