@@ -29,6 +29,7 @@ public class RoutineDay {
     @ManyToOne
     @JoinColumn(name = "routine_id", nullable = false)
     private Routine routine;
+    @Setter
     @OneToMany(mappedBy = "routineDay", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssignedExercise> assignedExercises = new ArrayList<>();
 

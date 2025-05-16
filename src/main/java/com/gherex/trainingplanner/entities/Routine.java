@@ -25,6 +25,7 @@ public class Routine {
     @Setter
     @Column(name = "duration_weeks")
     private Integer durationWeeks;
+    @Setter
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoutineDay> routineDays = new ArrayList<>();
 
