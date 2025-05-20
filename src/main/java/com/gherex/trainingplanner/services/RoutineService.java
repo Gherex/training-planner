@@ -19,4 +19,5 @@ public interface RoutineService {
 
     public void deleteRoutine(Long id);
 
+    boolean existsById(Long id);
 }

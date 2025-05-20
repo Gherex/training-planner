@@ -1,6 +1,7 @@
 package com.gherex.trainingplanner.services;
 
 import com.gherex.trainingplanner.entities.Exercise;
+import com.gherex.trainingplanner.entities.RoutineDay;
 import com.gherex.trainingplanner.repositories.ExerciseRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     public Optional<Exercise> updateExercise(Exercise exercise) {
         Long id = exercise.getId();
         if (id != null && exerciseRepository.existsById(id)) {
-            exerciseRepository.save(exercise);
+            Exercise savedExercise = exerciseRepository.save(exercise);
+            return Optional.of(savedExercise);
         }
         return Optional.empty();
     }
@@ -51,7 +53,8 @@ public class ExerciseServiceImpl implements ExerciseService {
             if (exercise.getDescription() != null) e.get().setDescription(exercise.getDescription());
             if (exercise.getImageUrl() != null) e.get().setImageUrl(exercise.getImageUrl());
 
-            exerciseRepository.save(e.get());
+            Exercise savedExercise = exerciseRepository.save(e.get());
+            return Optional.of(savedExercise);
         }
         return Optional.empty();
     }
@@ -59,5 +62,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void deleteExercise(Long id) {
         exerciseRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return exerciseRepository.existsById(id);
     }
 }

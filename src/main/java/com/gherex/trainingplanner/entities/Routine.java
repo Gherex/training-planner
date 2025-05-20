@@ -1,5 +1,6 @@
 package com.gherex.trainingplanner.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Routine {
     private Integer durationWeeks;
     @Setter
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference // indica el lado padre
     private List<RoutineDay> routineDays = new ArrayList<>();
 
     public Routine() {

@@ -1,5 +1,6 @@
 package com.gherex.trainingplanner.services;
 
+import com.gherex.trainingplanner.entities.Routine;
 import com.gherex.trainingplanner.entities.RoutineDay;
 import com.gherex.trainingplanner.repositories.RoutineDayRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,8 @@ public class RoutineDayServiceImpl implements RoutineDayService {
     public Optional<RoutineDay> updateRoutineDay(RoutineDay routineDay) {
         Long id = routineDay.getId();
         if (id != null && routineDayRepository.existsById(id)) {
-            routineDayRepository.save(routineDay);
+            RoutineDay savedRoutine = routineDayRepository.save(routineDay);
+            return Optional.of(savedRoutine);
         }
         return Optional.empty();
     }
@@ -52,7 +54,8 @@ public class RoutineDayServiceImpl implements RoutineDayService {
             if (routineDay.getAssignedExercises() != null)
                 rd.get().setAssignedExercises(routineDay.getAssignedExercises());
 
-            routineDayRepository.save(rd.get());
+            RoutineDay savedRoutineDay = routineDayRepository.save(rd.get());
+            return Optional.of(savedRoutineDay);
         }
         return Optional.empty();
     }
@@ -60,5 +63,10 @@ public class RoutineDayServiceImpl implements RoutineDayService {
     @Override
     public void deleteRoutineDay(Long id) {
         routineDayRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return routineDayRepository.existsById(id);
     }
 }

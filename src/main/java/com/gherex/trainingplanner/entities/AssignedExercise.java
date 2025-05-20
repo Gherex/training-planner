@@ -1,5 +1,6 @@
 package com.gherex.trainingplanner.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class AssignedExercise {
     @Setter
     @ManyToOne
     @JoinColumn(name = "routine_day_id", nullable = false)
+    @JsonBackReference
     private RoutineDay routineDay;
     @Setter
     @ManyToOne

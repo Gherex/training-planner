@@ -1,5 +1,6 @@
 package com.gherex.trainingplanner.services;
 
+import com.gherex.trainingplanner.entities.Routine;
 import com.gherex.trainingplanner.entities.RoutineDay;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface RoutineDayService {
 
     public void deleteRoutineDay(Long id);
 
+    boolean existsById(Long id);
 }

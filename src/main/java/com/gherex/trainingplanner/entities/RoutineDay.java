@@ -1,5 +1,7 @@
 package com.gherex.trainingplanner.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gherex.trainingplanner.enums.WeekDay;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,9 +30,11 @@ public class RoutineDay {
     @Setter
     @ManyToOne
     @JoinColumn(name = "routine_id", nullable = false)
+    @JsonBackReference // para excluir esta propiedad del JSON
     private Routine routine;
     @Setter
     @OneToMany(mappedBy = "routineDay", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<AssignedExercise> assignedExercises = new ArrayList<>();
 
     public RoutineDay() {

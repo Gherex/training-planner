@@ -19,4 +19,5 @@ public interface AssignedExerciseService {
 
     public void deleteAssignedExercise(Long id);
 
+    boolean existsById(Long id);
 }

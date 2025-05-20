@@ -1,6 +1,7 @@
 package com.gherex.trainingplanner.services;
 
 import com.gherex.trainingplanner.entities.AssignedExercise;
+import com.gherex.trainingplanner.entities.Exercise;
 import com.gherex.trainingplanner.repositories.AssignedExerciseRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class AssignedExerciseServiceImpl implements AssignedExerciseService {
     public Optional<AssignedExercise> updateAssignedExercise(AssignedExercise assignedExercise) {
         Long id = assignedExercise.getId();
         if (id != null && assignedExerciseRepository.existsById(id)) {
-            assignedExerciseRepository.save(assignedExercise);
+            AssignedExercise savedAssignedExercise = assignedExerciseRepository.save(assignedExercise);
+            return Optional.of(savedAssignedExercise);
         }
         return Optional.empty();
     }
@@ -51,7 +53,8 @@ public class AssignedExerciseServiceImpl implements AssignedExerciseService {
             if (assignedExercise.getSets() != null) ae.get().setSets(assignedExercise.getSets());
             if (assignedExercise.getRepetitions() != null) ae.get().setRepetitions(assignedExercise.getRepetitions());
 
-            assignedExerciseRepository.save(ae.get());
+            AssignedExercise savedAssignedExercise = assignedExerciseRepository.save(ae.get());
+            return Optional.of(savedAssignedExercise);
         }
         return Optional.empty();
     }
@@ -59,5 +62,10 @@ public class AssignedExerciseServiceImpl implements AssignedExerciseService {
     @Override
     public void deleteAssignedExercise(Long id) {
         assignedExerciseRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return assignedExerciseRepository.existsById(id);
     }
 }

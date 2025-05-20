@@ -19,7 +19,6 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public List<Routine> getAllRoutines() {
         return routineRepository.findAll();
-
     }
 
     @Override
@@ -36,29 +35,42 @@ public class RoutineServiceImpl implements RoutineService {
     public Optional<Routine> updateRoutine(Routine routine) {
         Long id = routine.getId();
         if (id != null && routineRepository.existsById(id)) {
-            routineRepository.save(routine);
+            Routine savedRoutine = routineRepository.save(routine);
+            return Optional.of(savedRoutine);
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<Routine> partialUpdateRoutine(Routine routine) {
-        Long id = routine.getId();
-        if (id != null && routineRepository.existsById(id)) {
-            Optional<Routine> r = routineRepository.findById(id);
-            if (routine.getName() != null) r.get().setName(routine.getName());
-            if (routine.getGoal() != null) r.get().setGoal(routine.getGoal());
-            if (routine.getDescription() != null) r.get().setDescription(routine.getDescription());
-            if (routine.getDurationWeeks() != null) r.get().setDurationWeeks(routine.getDurationWeeks());
-            if (routine.getRoutineDays() != null) r.get().setRoutineDays(routine.getRoutineDays());
-
-            routineRepository.save(r.get());
-        }
-        return Optional.empty();
+    public Optional<Routine> partialUpdateRoutine(Routine updatedRoutine) {
+        return routineRepository.findById(updatedRoutine.getId())
+                .map(existingRoutine -> {
+                    // Copiar propiedades simples
+                    if (updatedRoutine.getGoal() != null) {
+                        existingRoutine.setGoal(updatedRoutine.getGoal());
+                    }
+                    if (updatedRoutine.getDescription() != null) {
+                        existingRoutine.setDescription(updatedRoutine.getDescription());
+                    }
+                    // Para la colección, limpia y añade los nuevos elementos
+                    if (updatedRoutine.getRoutineDays() != null) {
+                        existingRoutine.getRoutineDays().clear();
+                        existingRoutine.getRoutineDays().addAll(updatedRoutine.getRoutineDays());
+                        // Asegúrate de establecer el lado propietario de la relación
+                        updatedRoutine.getRoutineDays().forEach(day -> day.setRoutine(existingRoutine));
+                    }
+                    return routineRepository.save(existingRoutine);
+                });
     }
 
     @Override
     public void deleteRoutine(Long id) {
         routineRepository.deleteById(id);
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return routineRepository.existsById(id);
+    }
+
 }
